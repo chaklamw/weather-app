@@ -1,0 +1,32 @@
+body {
+    background-color: #121212;
+    color:white;
+}
+
+header {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top:2%
+}
+
+#search-bar {
+    display: flex;
+    border-radius: 10px;
+    background-color: lightgray;
+    padding-left: 1%;
+    padding-top:1px;
+    padding-bottom:1px;
+}
+
+#search-input {
+    border:none;
+    background-color:transparent;
+}
+
+#search-button {
+    background-color: transparent;
+    border: none;
+}
