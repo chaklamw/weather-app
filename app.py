@@ -28,6 +28,7 @@ def query():
     if result is None:
         return jsonify({"error": "not found"})
     
+    # Returns a json object to unpack in script.js, latitude, longitude, and the name of location
     return jsonify({
         "latitude": result[0],
         "longitude": result[1],
@@ -45,7 +46,7 @@ def geocode(location):
     if ("error" in data or "results" not in data or len(data["results"]) == 0):
         return None
     
-    # Returns a tuple of latitude and longitude
+    # Returns a tuple of latitude and longitude and name
     return (data["results"][0]["latitude"], data["results"][0]["longitude"], data["results"][0]["name"])
 
 if __name__ == "__main__":
