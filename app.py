@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 import openmeteo_requests
 import pandas as pd
 import requests
@@ -19,6 +19,21 @@ openmeteo = openmeteo_requests.Client(session = retry_session)
 def home():
     return render_template("index.html")
 
+# Each time enter is pressed on the search bar in the homepage, this will run geocode to convert
+# the query into a location. This does NOT check if its a valid location. That is done in script.js
+@app.route("/location")
+def query():
+    result = geocode(request.args.get("name"))
+    
+    if result is None:
+        return jsonify({"error": "not found"})
+    
+    return jsonify({
+        "latitude": result[0],
+        "longitude": result[1],
+        "name": result[2]
+    })
+
 # Takes in a city name / zipcode, converts to longitude and latitude via Open-Meteo Geocoding API
 def geocode(location):
     url=f"https://geocoding-api.open-meteo.com/v1/search?name={location}"
@@ -27,8 +42,11 @@ def geocode(location):
     
     data=response.json()
     
+    if ("error" in data or "results" not in data or len(data["results"]) == 0):
+        return None
+    
     # Returns a tuple of latitude and longitude
-    return (data["results"][0]["latitude"], data["results"][0]["longitude"])
+    return (data["results"][0]["latitude"], data["results"][0]["longitude"], data["results"][0]["name"])
 
 if __name__ == "__main__":
     app.run(debug=True)

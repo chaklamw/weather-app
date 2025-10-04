@@ -12,9 +12,24 @@ header {
     margin-top:2%
 }
 
+#location-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#location-container p {
+    margin: 0;
+    line-height:1.2;
+}
+
 #search {
+    position:absolute;
+    left:50%;
+    transform: translateX(-50%);
     display: flex;
     gap: 10px;
+    align-self: center;
 }
 
 #search-bar {
