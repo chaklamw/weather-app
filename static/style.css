@@ -12,6 +12,11 @@ header {
     margin-top:2%
 }
 
+#search {
+    display: flex;
+    gap: 10px;
+}
+
 #search-bar {
     display: flex;
     border-radius: 10px;
@@ -33,6 +38,11 @@ header {
 
 #search-input:focus {
     outline: none;
+}
+
+#default {
+    width: fit-content;
+    white-space: nowrap;
 }
 
 #search-bar:focus-within {
