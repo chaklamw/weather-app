@@ -30,3 +30,15 @@ header {
     background-color: transparent;
     border: none;
 }
+
+#search-input:focus {
+    outline: none;
+}
+
+#search-bar:focus-within {
+    outline:2px solid blue;
+}
+
+main {
+    display:flex;
+}
