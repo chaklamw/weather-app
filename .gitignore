@@ -3,3 +3,6 @@ venv/
 
 # Ignore VSCode settings
 .vscode/
+
+# Ignore cache for testing purposes
+.cache.sqlite
