@@ -19,6 +19,8 @@ let defaultButton = document.getElementById("default")
 defaultButton.addEventListener("click", changeDefault)
 
 let searchBar = document.getElementById("search-input")
+searchBar.value = "" // DEFAULT empty search bar
+
 searchBar.addEventListener("keydown", search)
 // TODO: add later functionality for when the magnifying glass is pressed
 
