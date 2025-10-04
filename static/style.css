@@ -41,4 +41,10 @@ header {
 
 main {
     display:flex;
+    justify-content: space-between;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
 }
