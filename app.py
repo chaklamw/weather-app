@@ -34,7 +34,8 @@ def query():
     return jsonify({
         "latitude": result[0],
         "longitude": result[1],
-        "name": result[2]
+        "name": result[2],
+        "weather":weather_information
     })
 
 # Takes in a city name / zipcode, converts to longitude and latitude via Open-Meteo Geocoding API
@@ -69,6 +70,13 @@ def get_weather(latitude, longitude):
     timezone = response.Timezone()
     timezoneABR = response.TimezoneAbbreviation()
     timezoneGMT = response.UtcOffsetSeconds()
+    # Decode as utf-8 is necessary as currently it is a bytes object. You can verify this with a print statement.
+    timezone_info = {
+        "name": timezone.decode("utf-8"), 
+        "timezoneABR": timezoneABR.decode("utf-8"), 
+        "timezoneGMT": timezoneGMT
+    }
+    
 
     #  Process current data. The order of variables needs to be the same as requested.
     current = response.Current()
@@ -78,6 +86,14 @@ def get_weather(latitude, longitude):
     current_snowfall = current.Variables(3).Value()
     current_temperature_2m = current.Variables(4).Value()
     current_precipitation = current.Variables(5).Value()
+    current_info = {
+        "current_rain": current_rain,
+        "current_showers": current_showers,
+        "current_apparent_temperature": current_apparent_temperature,
+        "current_snowfall": current_snowfall,
+        "current_temperature_2m": current_temperature_2m,
+        "current_precipitation": current_precipitation
+    }
     
     # Process hourly data. The order of variables needs to be the same as requested.
     hourly = response.Hourly()
@@ -86,14 +102,35 @@ def get_weather(latitude, longitude):
     hourly_rain = hourly.Variables(2).ValuesAsNumpy()
     hourly_showers = hourly.Variables(3).ValuesAsNumpy()
     hourly_snowfall = hourly.Variables(4).ValuesAsNumpy()
+    hourly_info = { # All of the info for hourly are arrays for information for the next week (168 entries)
+        "hourly_temperature_2m": hourly_temperature_2m.tolist(),
+        "hourly_apparent_temperature":hourly_apparent_temperature.tolist(),
+        "hourly_rain":hourly_rain.tolist(),
+        "hourly_showers": hourly_showers.tolist(),
+        "hourly_snowfall":hourly_snowfall.tolist()
+    }
 
     # Process daily data. The order of variables needs to be the same as requested.
     daily = response.Daily()
     daily_sunrise = daily.Variables(0).ValuesInt64AsNumpy()
     daily_sunset = daily.Variables(1).ValuesInt64AsNumpy()
     daily_precipitation_probability_max = daily.Variables(2).ValuesAsNumpy()
+    daily_info = {
+        "daily_sunrise":daily_sunrise.tolist(),
+        "daily_sunset":daily_sunset.tolist(),
+        "daily_precipitation_probability_max":daily_precipitation_probability_max.tolist()
+    }
     
-    return
+    info = {
+        "timezone": timezone_info,
+        "current": current_info,
+        "hourly": hourly_info,
+        "daily": daily_info
+    }
+    
+    print(info)
+    
+    return info
 
 if __name__ == "__main__":
     app.run(debug=True)

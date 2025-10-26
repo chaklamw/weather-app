@@ -6,8 +6,8 @@ if (userLocation === null) {
     localStorage.setItem("default_location", "New York")
 } 
 
+// Updating default location text and current location
 let locationText = document.getElementById("location")
-
 locationText.textContent = localStorage.getItem("default_location")
 
 let currentLocation = document.getElementById("curr-location")
@@ -29,6 +29,7 @@ async function search(event) {
         let query = searchBar.value
         let result = await fetch(`/location?name=${query}`)
         let data = await result.json()
+        console.log(data)
 
         if ('name' in data) {
             currentLocationSearch = data.name
