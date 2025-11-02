@@ -69,7 +69,31 @@ main {
     justify-content: space-between;
 }
 
-.content-container {
+#main-container {
     display: flex;
+    width:100%;
+    justify-content: space-between;
+}
+
+.content-container {
+    width: 50%;
+    flex:1;
     flex-direction: column;
+}
+
+#tabs {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    width: 50%;
+}
+
+.tab-content {
+    display:none;
+}
+
+.tab-content.active {
+    display:block;
 }
